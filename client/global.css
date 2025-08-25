@@ -1,0 +1,188 @@
+/* Use @import to avoid CSS validator errors for unknown at-rules */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer base {
+
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 220 14% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 14% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 14% 20%;
+
+    --primary: 330 60% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 330 100% 98%;
+    --secondary-foreground: 330 60% 45%;
+
+    --muted: 330 100% 98%;
+    --muted-foreground: 220 14% 50%;
+
+    --accent: 330 100% 98%;
+    --accent-foreground: 330 60% 45%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 330 30% 85%;
+    --input: 330 30% 85%;
+    --ring: 330 60% 55%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 14% 20%;
+    --sidebar-primary: 330 60% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 330 100% 98%;
+    --sidebar-accent-foreground: 330 60% 45%;
+    --sidebar-border: 330 30% 85%;
+    --sidebar-ring: 330 60% 55%;
+
+    /* Unicorn theme colors - softer */
+    --unicorn-pink: 330 60% 55%;
+    --unicorn-pink-light: 330 50% 85%;
+    --unicorn-pink-dark: 330 60% 40%;
+    --unicorn-white: 0 0% 100%;
+    --unicorn-purple: 280 40% 65%;
+    --unicorn-purple-light: 280 40% 80%;
+  }
+
+  .dark {
+    --background: 330 20% 8%;
+    --foreground: 210 20% 90%;
+
+    --card: 330 20% 8%;
+    --card-foreground: 210 20% 90%;
+
+    --popover: 330 20% 8%;
+    --popover-foreground: 210 20% 90%;
+
+    --primary: 330 50% 65%;
+    --primary-foreground: 330 20% 8%;
+
+    --secondary: 330 20% 15%;
+    --secondary-foreground: 210 20% 90%;
+
+    --muted: 330 20% 15%;
+    --muted-foreground: 210 15% 65%;
+
+    --accent: 330 20% 15%;
+    --accent-foreground: 210 20% 90%;
+
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 210 20% 90%;
+
+    --border: 330 20% 20%;
+    --input: 330 20% 20%;
+    --ring: 330 50% 65%;
+    --sidebar-background: 330 20% 8%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 330 50% 65%;
+    --sidebar-primary-foreground: 330 20% 8%;
+    --sidebar-accent: 330 20% 15%;
+    --sidebar-accent-foreground: 210 20% 90%;
+    --sidebar-border: 330 20% 20%;
+    --sidebar-ring: 330 50% 65%;
+
+    /* Unicorn theme colors (dark mode) - softer */
+    --unicorn-pink: 330 50% 65%;
+    --unicorn-pink-light: 330 40% 55%;
+    --unicorn-pink-dark: 330 50% 35%;
+    --unicorn-white: 210 20% 90%;
+    --unicorn-purple: 280 40% 65%;
+    --unicorn-purple-light: 280 30% 60%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+}
+
+/* Custom syntax highlighting styles */
+.hljs {
+  background: #f8f9fa;
+  color: #24292e;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #6a737d;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-addition {
+  color: #d73a49;
+}
+
+.hljs-number,
+.hljs-string,
+.hljs-meta .hljs-meta-string,
+.hljs-literal,
+.hljs-doctag,
+.hljs-regexp {
+  color: #032f62;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #6f42c1;
+}
+
+.hljs-attribute,
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-class .hljs-title,
+.hljs-type {
+  color: #e36209;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-subst,
+.hljs-meta,
+.hljs-meta .hljs-keyword,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-link {
+  color: #005cc5;
+}
+
+.hljs-built_in,
+.hljs-deletion {
+  color: #22863a;
+}
+
+.hljs-formula {
+  background-color: #eee;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
