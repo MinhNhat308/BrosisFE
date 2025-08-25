@@ -1,5 +1,7 @@
 // Blog API Service cho frontend
-const API_BASE_URL = 'http://localhost:8081/api/blog';
+import { API_BASE_URL } from './config';
+
+const BLOG_API_URL = `${API_BASE_URL}/api/blog`;
 
 export interface Tag {
   id: number;
@@ -38,7 +40,7 @@ class BlogService {
   // Get all available tags
   static async getAllTags(): Promise<Tag[]> {
     try {
-      const response = await fetch(`${API_BASE_URL}/tags`);
+      const response = await fetch(`${BLOG_API_URL}/tags`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -52,7 +54,7 @@ class BlogService {
   // Get all blogs from API
   static async getAllBlogs(): Promise<BlogPost[]> {
     try {
-      const response = await fetch(API_BASE_URL);
+      const response = await fetch(BLOG_API_URL);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -66,7 +68,7 @@ class BlogService {
   // Get blog by ID
   static async getBlogById(id: number): Promise<BlogPost> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}`);
+      const response = await fetch(`${BLOG_API_URL}/${id}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -80,7 +82,7 @@ class BlogService {
   // Create new blog
   static async createBlog(blogData: Omit<BlogPost, 'id' | 'created_at'> & { tagIds?: number[] }): Promise<BlogPost> {
     try {
-      const response = await fetch(API_BASE_URL, {
+      const response = await fetch(BLOG_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -101,7 +103,7 @@ class BlogService {
   // Update blog
   static async updateBlog(id: number, blogData: Omit<BlogPost, 'id' | 'created_at'>): Promise<BlogPost> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}`, {
+      const response = await fetch(`${BLOG_API_URL}/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -122,7 +124,7 @@ class BlogService {
   // Delete blog
   static async deleteBlog(id: number): Promise<{ message: string }> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}`, {
+      const response = await fetch(`${BLOG_API_URL}/${id}`, {
         method: 'DELETE',
       });
       

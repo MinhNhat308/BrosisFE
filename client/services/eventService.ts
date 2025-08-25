@@ -1,5 +1,7 @@
 // Event API Service cho frontend
-const API_BASE_URL = 'http://localhost:8081/api/events';
+import { EVENT_API_URL } from './config';
+
+const EVENT_API_URL = `${EVENT_API_URL}/api/events`;
 
 export interface EventAPI {
   id: number;
@@ -80,7 +82,7 @@ class EventService {
   // Get all events
   async getAllEvents(): Promise<EventAPI[]> {
     try {
-      const response = await fetch(API_BASE_URL);
+      const response = await fetch(EVENT_API_URL);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -94,7 +96,7 @@ class EventService {
   // Get event by ID
   async getEventById(id: number): Promise<EventAPI> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}`);
+      const response = await fetch(`${EVENT_API_URL}/${id}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -108,7 +110,7 @@ class EventService {
   // Create new event
   async createEvent(eventData: Partial<EventAPI>): Promise<EventAPI> {
     try {
-      const response = await fetch(API_BASE_URL, {
+      const response = await fetch(EVENT_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -128,7 +130,7 @@ class EventService {
   // Update event
   async updateEvent(id: number, eventData: Partial<EventAPI>): Promise<EventAPI> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}`, {
+      const response = await fetch(`${EVENT_API_URL}/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -148,7 +150,7 @@ class EventService {
   // Delete event
   async deleteEvent(id: number): Promise<void> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}`, {
+      const response = await fetch(`${EVENT_API_URL}/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -189,7 +191,7 @@ class EventService {
       // Add event ID for backend processing
       formData.append('event_id', id.toString());
 
-      const response = await fetch(`${API_BASE_URL}/${id}/register`, {
+      const response = await fetch(`${EVENT_API_URL}/${id}/register`, {
         method: 'POST',
         body: formData, // Send as FormData for file upload
       });
@@ -209,7 +211,7 @@ class EventService {
   // Toggle like for event
   async toggleLike(id: number): Promise<{ liked: boolean; likes: number }> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}/like`, {
+      const response = await fetch(`${EVENT_API_URL}/${id}/like`, {
         method: 'POST',
       });
       if (!response.ok) {
@@ -225,7 +227,7 @@ class EventService {
   // Get event categories
   async getCategories(): Promise<EventCategory[]> {
     try {
-      const response = await fetch(`${API_BASE_URL}/categories/all`);
+      const response = await fetch(`${EVENT_API_URL}/categories/all`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -239,7 +241,7 @@ class EventService {
   // Get academic calendar
   async getAcademicCalendar(semester?: string): Promise<AcademicCalendar[]> {
     try {
-      const url = semester ? `${API_BASE_URL}/academic/calendar?semester=${semester}` : `${API_BASE_URL}/academic/calendar`;
+      const url = semester ? `${EVENT_API_URL}/academic/calendar?semester=${semester}` : `${EVENT_API_URL}/academic/calendar`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

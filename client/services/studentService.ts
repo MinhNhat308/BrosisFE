@@ -1,5 +1,7 @@
 // Student API Service cho frontend
-const API_BASE_URL = 'http://localhost:8081';
+import { API_BASE_URL } from './config';
+
+const STUDENT_API_URL = `${API_BASE_URL}/api/students`;
 
 export interface Student {
   id: number;
