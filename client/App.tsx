@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import FPTChatbot from "@/components/FPTChatbot";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import Index from "./pages/Index";
 import Events from "./pages/Events";
 import EventDetail from "./pages/EventDetailTemp";
@@ -20,13 +21,14 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <Toaster />
-    <Sonner />
-    <BrowserRouter>
-      <div className="min-h-screen bg-background">
-        <Navigation />
-        <main>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <div className="min-h-screen bg-background">
+          <Navigation />
+          <main>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/events" element={<Events />} />
@@ -45,6 +47,7 @@ const App = () => (
       </div>
     </BrowserRouter>
   </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 createRoot(document.getElementById("root")!).render(<App />);

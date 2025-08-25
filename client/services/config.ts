@@ -1,5 +1,12 @@
 // Environment configuration for API endpoints
 const getAPIBaseURL = () => {
+  // Debug logging
+  console.log('Environment variables:', {
+    VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
+    DEV: import.meta.env.DEV,
+    PROD: import.meta.env.PROD
+  });
+  
   // Check for Vite environment variable first
   if (import.meta.env.VITE_API_BASE_URL) {
     return import.meta.env.VITE_API_BASE_URL;
