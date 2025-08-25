@@ -15,6 +15,16 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     outDir: "dist/spa",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          framer: ['framer-motion'],
+          ui: ['lucide-react']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000
   },
   plugins: [react(), expressPlugin()],
   resolve: {
