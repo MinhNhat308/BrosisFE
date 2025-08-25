@@ -14,7 +14,7 @@ import EventDetail from "./pages/EventDetailTemp";
 import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
 import Students from "./pages/Students";
-import Military from "./pages/MilitarySimple";
+import Military from "./pages/Military";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
