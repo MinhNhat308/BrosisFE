@@ -15,11 +15,11 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     outDir: "dist/spa",
+  sourcemap: true,
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
-          framer: ['framer-motion'],
           ui: ['lucide-react']
         }
       }
