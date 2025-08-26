@@ -42,7 +42,7 @@ export default function Index() {
     totalProjects: 8,
     totalAwards: 15
   });
-  
+
   const [currentStudentSlide, setCurrentStudentSlide] = useState(0);
   const [currentBlogSlide, setCurrentBlogSlide] = useState(0);
 
@@ -131,7 +131,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-unicorn-pink/5 to-unicorn-purple/10">
-      
+
       {/* Slide Banner Section */}
       <section className="relative h-[80vh] min-h-[700px] overflow-hidden">
         {/* Animated Background Slider */}
@@ -139,23 +139,23 @@ export default function Index() {
           <div className="relative w-full h-full">
             {/* Multiple background slides */}
             <div className="absolute inset-0 animate-[slideShow_12s_infinite]">
-              <div 
+              <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
                 style={{
                   backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('/Unicorn1.jpg')`
                 }}
               />
             </div>
-            <div className="absolute inset-0 animate-[slideShow_12s_infinite] opacity-0" style={{animationDelay: '4s'}}>
-              <div 
+            <div className="absolute inset-0 animate-[slideShow_12s_infinite] opacity-0" style={{ animationDelay: '4s' }}>
+              <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
                 style={{
                   backgroundImage: `linear-gradient(rgba(147, 51, 234, 0.4), rgba(236, 72, 153, 0.4)), url('/Unicorn2.jpg')`
                 }}
               />
             </div>
-            <div className="absolute inset-0 animate-[slideShow_12s_infinite] opacity-0" style={{animationDelay: '8s'}}>
-              <div 
+            <div className="absolute inset-0 animate-[slideShow_12s_infinite] opacity-0" style={{ animationDelay: '8s' }}>
+              <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
                 style={{
                   backgroundImage: `linear-gradient(rgba(236, 72, 153, 0.4), rgba(147, 51, 234, 0.4)), url('/Unicorn3.jpg')`
@@ -173,7 +173,7 @@ export default function Index() {
           <div className="absolute top-1/4 right-1/4 w-2 h-2 bg-white/20 rounded-full animate-[float_7s_ease-in-out_infinite] delay-3000"></div>
           <div className="absolute bottom-20 right-40 w-3 h-3 bg-unicorn-pink/30 rounded-full animate-[float_9s_ease-in-out_infinite] delay-4000"></div>
         </div>
-        
+
         {/* Main Content with Enhanced Animations */}
         <div className="relative z-10 flex items-center justify-center h-full">
           <div className="text-center text-white max-w-5xl mx-auto px-4">
@@ -201,8 +201,8 @@ export default function Index() {
 
             {/* Animated Buttons */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center animate-[slideInUp_1s_ease-out_0.9s_both]">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-gradient-to-r from-unicorn-pink to-unicorn-purple hover:from-unicorn-purple hover:to-unicorn-pink text-white px-10 py-5 text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl animate-[pulse_3s_infinite]"
                 asChild
               >
@@ -212,9 +212,9 @@ export default function Index() {
                   <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
+              <Button
+                size="lg"
+                variant="outline"
                 className="border-3 border-white text-white hover:bg-white hover:text-gray-900 px-10 py-5 text-lg font-semibold backdrop-blur-sm bg-white/10 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                 asChild
               >
@@ -269,7 +269,7 @@ export default function Index() {
       {/* Main Content Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
-          
+
           {/* Left Column - About & Features */}
           <div className="space-y-8 animate-[slideInUp_1s_ease-out_0.2s_both]">
             {/* About Section */}
@@ -281,7 +281,7 @@ export default function Index() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-gray-600 leading-relaxed">
-                  Unicorn Team là một cộng đồng sinh viên đam mê công nghệ, nơi chúng tôi nuôi dưỡng tài năng 
+                  Unicorn Team là một cộng đồng sinh viên đam mê công nghệ, nơi chúng tôi nuôi dưỡng tài năng
                   và tạo ra những giá trị đột phá trong lĩnh vực phát triển phần mềm.
                 </p>
                 <p className="text-gray-600 leading-relaxed">
@@ -333,15 +333,15 @@ export default function Index() {
               <div className="absolute inset-0 bg-gradient-to-r from-unicorn-pink to-unicorn-purple p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <div className="bg-white rounded-lg h-full w-full"></div>
               </div>
-              
+
               <div className="aspect-[4/3] relative overflow-hidden rounded-lg">
-                <img 
-                  src="/Unicorn1.jpg" 
-                  alt="Unicorn Team" 
+                <img
+                  src="/Unicorn1.jpg"
+                  alt="Unicorn Team"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 relative z-10"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent group-hover:from-unicorn-pink/20 group-hover:to-unicorn-purple/10 transition-all duration-500 z-20" />
-                
+
                 {/* Floating Animation Elements */}
                 <div className="absolute top-4 right-4 z-30">
                   <div className="w-3 h-3 bg-unicorn-pink rounded-full animate-[float_3s_ease-in-out_infinite] opacity-70"></div>
@@ -349,12 +349,12 @@ export default function Index() {
                 <div className="absolute bottom-4 right-8 z-30">
                   <div className="w-2 h-2 bg-unicorn-purple rounded-full animate-[float_4s_ease-in-out_infinite] opacity-60"></div>
                 </div>
-                
+
                 <div className="absolute bottom-6 left-6 text-white z-30 group-hover:translate-y-0 translate-y-2 transition-transform duration-500">
                   <h3 className="text-xl font-bold mb-2 group-hover:text-unicorn-pink transition-colors duration-300">Unicorn Team 2025</h3>
                   <p className="text-sm opacity-90 group-hover:opacity-100 transition-opacity duration-300">Đại gia đình công nghệ tài năng</p>
                 </div>
-                
+
                 {/* Overlay Sparkle Effect */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-25">
                   <div className="absolute top-1/4 left-1/3 w-1 h-1 bg-white rounded-full animate-[sparkle_2s_ease-in-out_infinite]"></div>
@@ -424,24 +424,24 @@ export default function Index() {
           <div className="absolute -bottom-10 -left-5 w-28 h-28 bg-unicorn-pink/15 rounded-full animate-[float_7s_ease-in-out_infinite_1s]"></div>
           <div className="absolute -bottom-5 -right-10 w-20 h-20 bg-unicorn-purple/15 rounded-full animate-[float_9s_ease-in-out_infinite_2s]"></div>
         </div>
-        
+
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
           <Card className="border-unicorn-pink/20 shadow-xl bg-gradient-to-r from-unicorn-pink/10 to-unicorn-purple/10 hover:shadow-2xl transition-all duration-700 hover:scale-105 animate-[slideInUp_1s_ease-out] relative overflow-hidden">
             {/* Card Background Animation */}
             <div className="absolute inset-0 bg-gradient-to-r from-unicorn-pink/5 to-unicorn-purple/5 animate-[glow_3s_ease-in-out_infinite_alternate]"></div>
-            
+
             <CardContent className="p-12 relative z-10">
               <Sparkles className="w-16 h-16 text-unicorn-pink mx-auto mb-6 animate-[bounce_2s_infinite] hover:animate-[sparkle_1s_ease-in-out_infinite]" />
               <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-unicorn-pink to-unicorn-purple bg-clip-text text-transparent mb-6 animate-[slideInUp_1s_ease-out_0.2s_both] hover:animate-pulse">
                 Sẵn sàng tham gia Unicorn Team?
               </h2>
               <p className="text-gray-600 text-lg mb-8 leading-relaxed animate-[slideInUp_1s_ease-out_0.4s_both]">
-                Hãy cùng chúng tôi tạo nên những điều kỳ diệu trong thế giới công nghệ. 
+                Hãy cùng chúng tôi tạo nên những điều kỳ diệu trong thế giới công nghệ.
                 Tham gia ngay để trở thành một phần của gia đình Unicorn Team!
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center animate-[slideInUp_1s_ease-out_0.6s_both]">
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="bg-unicorn-pink hover:bg-unicorn-pink/90 text-white px-8 py-4 hover:scale-110 transition-all duration-300 animate-[glow_2s_ease-in-out_infinite_alternate] shadow-lg hover:shadow-unicorn-pink/50"
                   asChild
                 >
@@ -450,9 +450,9 @@ export default function Index() {
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
+                <Button
+                  size="lg"
+                  variant="outline"
                   className="border-unicorn-pink text-unicorn-pink hover:bg-unicorn-pink/10 px-8 py-4 hover:scale-110 transition-all duration-300 hover:shadow-lg"
                   asChild
                 >
@@ -492,7 +492,7 @@ export default function Index() {
 
             {/* Students Container */}
             <div className="flex-1 overflow-hidden">
-              <div 
+              <div
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{ transform: `translateX(-${(currentStudentSlide / 4) * 100}%)` }}
               >
@@ -500,7 +500,7 @@ export default function Index() {
                   <div key={slideIndex} className="w-full flex-shrink-0">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                       {mockStudents.slice(slideIndex * 4, slideIndex * 4 + 4).map((student, index) => (
-                        <Card 
+                        <Card
                           key={student.id}
                           className={`border-unicorn-pink/20 hover:shadow-xl transition-all duration-500 hover:scale-105 group cursor-pointer animate-[slideInUp_0.6s_ease-out_${index * 0.1}s_both]`}
                         >
@@ -555,11 +555,10 @@ export default function Index() {
                 <button
                   key={index}
                   onClick={() => setCurrentStudentSlide(index * 4)}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    Math.floor(currentStudentSlide / 4) === index
+                  className={`w-3 h-3 rounded-full transition-colors ${Math.floor(currentStudentSlide / 4) === index
                       ? 'bg-unicorn-pink'
                       : 'bg-gray-300 hover:bg-unicorn-pink/50'
-                  }`}
+                    }`}
                 />
               ))}
             </div>
@@ -593,7 +592,7 @@ export default function Index() {
 
             {/* Blog Container */}
             <div className="flex-1 overflow-hidden">
-              <div 
+              <div
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{ transform: `translateX(-${currentBlogSlide * 100}%)` }}
               >
@@ -603,13 +602,13 @@ export default function Index() {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-96">
                       {/* Bài to (1 column) */}
                       {blogPosts.slice(slideIndex * 5, slideIndex * 5 + 1).map((post) => (
-                        <Card 
+                        <Card
                           key={post.id}
                           className="lg:col-span-1 border-unicorn-pink/20 hover:shadow-xl transition-all duration-500 hover:scale-105 group cursor-pointer animate-[slideInUp_0.6s_ease-out_0s_both] h-full"
                         >
                           <div className="relative h-48 overflow-hidden">
-                            <img 
-                              src={post.image} 
+                            <img
+                              src={post.image}
                               alt={post.title}
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             />
@@ -652,13 +651,13 @@ export default function Index() {
                       {/* 4 bài nhỏ (2:2) - 2 columns */}
                       <div className="lg:col-span-2 grid grid-cols-2 gap-4">
                         {blogPosts.slice(slideIndex * 5 + 1, slideIndex * 5 + 5).map((post, index) => (
-                          <Card 
+                          <Card
                             key={post.id}
                             className="border-unicorn-pink/20 hover:shadow-xl transition-all duration-500 hover:scale-105 group cursor-pointer animate-[slideInUp_0.6s_ease-out_0.1s_both]"
                           >
                             <div className="relative h-24 overflow-hidden">
-                              <img 
-                                src={post.image} 
+                              <img
+                                src={post.image}
                                 alt={post.title}
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                               />
@@ -720,11 +719,10 @@ export default function Index() {
                 <button
                   key={index}
                   onClick={() => setCurrentBlogSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    currentBlogSlide === index
+                  className={`w-3 h-3 rounded-full transition-colors ${currentBlogSlide === index
                       ? 'bg-unicorn-pink'
                       : 'bg-gray-300 hover:bg-unicorn-pink/50'
-                  }`}
+                    }`}
                 />
               ))}
             </div>
@@ -803,4 +801,3 @@ export default function Index() {
     </div>
   );
 }
-

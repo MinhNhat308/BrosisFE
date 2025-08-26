@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
+import { useAdmin } from "@/contexts/AdminContext";
 import EditBlogModal from "@/components/EditBlogModal";
 import BlogService, { BlogPost } from "@/services/blogService";
 import BlogStatsService from "@/services/blogStatsService";
@@ -33,6 +34,7 @@ import {
 
 export default function BlogDetail() {
   const { id } = useParams();
+  const { isAdminMode } = useAdmin();
   const [blog, setBlog] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,6 +43,7 @@ export default function BlogDetail() {
   const [viewCount, setViewCount] = useState(0);
   const [likeCount, setLikeCount] = useState(0);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [relatedBlogs, setRelatedBlogs] = useState<BlogPost[]>([]);
 
   useEffect(() => {
     if (id) {
@@ -64,6 +67,19 @@ export default function BlogDetail() {
       // Increment view count via API
       const newViewCount = await BlogStatsService.incrementViewCount(blogId);
       setViewCount(newViewCount);
+      
+      // Fetch related blogs (exclude current blog)
+      try {
+        const allBlogs = await BlogService.getAllBlogs();
+        const related = allBlogs
+          .filter(b => b.id !== blogId) // Exclude current blog
+          .sort(() => Math.random() - 0.5) // Random shuffle
+          .slice(0, 3); // Take first 3
+        setRelatedBlogs(related);
+      } catch (relatedError) {
+        console.error('Error fetching related blogs:', relatedError);
+        setRelatedBlogs([]);
+      }
     } catch (err: any) {
       setError('Không thể tải blog. Vui lòng thử lại sau.');
       console.error('Error fetching blog:', err);
@@ -190,7 +206,7 @@ export default function BlogDetail() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => setIsLiked(!isLiked)}
+                    onClick={toggleLike}
                     className="bg-white/80 hover:bg-white"
                   >
                     <Heart className={`w-4 h-4 ${isLiked ? "text-red-500 fill-current" : "text-gray-600"}`} />
@@ -283,25 +299,29 @@ export default function BlogDetail() {
                   </div>
                   
                   <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleEdit}
-                      className="flex items-center gap-2 border-unicorn-purple text-unicorn-purple hover:bg-unicorn-purple hover:text-white"
-                    >
-                      <Edit className="w-4 h-4" />
-                      Chỉnh sửa
-                    </Button>
-                    
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleDelete}
-                      className="flex items-center gap-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                      Xóa
-                    </Button>
+                    {isAdminMode && (
+                      <>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleEdit}
+                          className="flex items-center gap-2 border-unicorn-purple text-unicorn-purple hover:bg-unicorn-purple hover:text-white"
+                        >
+                          <Edit className="w-4 h-4" />
+                          Chỉnh sửa
+                        </Button>
+                        
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleDelete}
+                          className="flex items-center gap-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          Xóa
+                        </Button>
+                      </>
+                    )}
                   </div>
                 </div>
               </CardContent>
@@ -465,25 +485,40 @@ export default function BlogDetail() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {[1, 2, 3].map((item) => (
-                  <div key={item} className="flex gap-3 p-3 rounded-lg hover:bg-unicorn-pink/5 transition-colors cursor-pointer">
-                    <div className="w-16 h-16 bg-gradient-to-br from-unicorn-pink to-unicorn-purple rounded-lg flex-shrink-0 flex items-center justify-center">
-                      <BookOpen className="w-8 h-8 text-white" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-sm text-foreground line-clamp-2 mb-1">
-                        Bài viết thú vị về công nghệ số {item}
-                      </h4>
-                      <p className="text-xs text-muted-foreground">
-                        {item} ngày trước • 5 phút đọc
-                      </p>
-                      <div className="flex items-center gap-1 mt-1">
-                        <Star className="w-3 h-3 text-unicorn-pink" />
-                        <span className="text-xs text-muted-foreground">Nổi bật</span>
+                {relatedBlogs.length > 0 ? (
+                  relatedBlogs.map((relatedBlog) => (
+                    <Link 
+                      key={relatedBlog.id} 
+                      to={`/blog/${relatedBlog.id}`}
+                      className="block"
+                    >
+                      <div className="flex gap-3 p-3 rounded-lg hover:bg-unicorn-pink/5 transition-colors cursor-pointer">
+                        <div className="w-16 h-16 bg-gradient-to-br from-unicorn-pink to-unicorn-purple rounded-lg flex-shrink-0 flex items-center justify-center">
+                          <BookOpen className="w-8 h-8 text-white" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium text-sm text-foreground line-clamp-2 mb-1">
+                            {relatedBlog.title}
+                          </h4>
+                          <p className="text-xs text-muted-foreground">
+                            {new Date(relatedBlog.created_at).toLocaleDateString('vi-VN')} • 
+                            5 phút đọc
+                          </p>
+                          <div className="flex items-center gap-1 mt-1">
+                            <Star className="w-3 h-3 text-unicorn-pink" />
+                            <span className="text-xs text-muted-foreground">
+                              {relatedBlog.tags?.[0] || 'Blog'}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
+                  ))
+                ) : (
+                  <div className="text-center py-4">
+                    <p className="text-sm text-muted-foreground">Chưa có bài viết liên quan</p>
                   </div>
-                ))}
+                )}
               </CardContent>
             </Card>
 
@@ -511,7 +546,7 @@ export default function BlogDetail() {
       </div>
 
       {/* Edit Blog Modal */}
-      {blog && (
+      {blog && isAdminMode && (
         <EditBlogModal
           isOpen={isEditModalOpen}
           onClose={() => setIsEditModalOpen(false)}

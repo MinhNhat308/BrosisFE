@@ -205,10 +205,10 @@ export default function EventDetail() {
             <Card className="border-unicorn-pink/20">
               <div className="h-64 bg-gradient-to-br from-unicorn-pink/20 to-unicorn-purple/20 flex items-center justify-center relative">
                 <div className="text-center">
-                  {event.event_type === "workshop" && <BookOpen className="w-20 h-20 text-unicorn-pink mb-4" />}
-                  {event.event_type === "competition" && <Trophy className="w-20 h-20 text-unicorn-purple mb-4" />}
-                  {event.event_type === "seminar" && <Users className="w-20 h-20 text-unicorn-pink mb-4" />}
-                  {event.event_type === "hackathon" && <Zap className="w-20 h-20 text-unicorn-purple mb-4" />}
+                  {event.category === "workshop" && <BookOpen className="w-20 h-20 text-unicorn-pink mb-4" />}
+                  {event.category === "competition" && <Trophy className="w-20 h-20 text-unicorn-purple mb-4" />}
+                  {event.category === "seminar" && <Users className="w-20 h-20 text-unicorn-pink mb-4" />}
+                  {event.category === "hackathon" && <Zap className="w-20 h-20 text-unicorn-purple mb-4" />}
                 </div>
                 <div className="absolute top-4 left-4">
                   <Badge className={`${event.status === "upcoming" ? "bg-green-500" : "bg-gray-500"} text-white`}>
@@ -231,7 +231,7 @@ export default function EventDetail() {
               </div>
               <CardHeader>
                 <div className="flex items-center gap-2 mb-2">
-                  <Badge className="bg-unicorn-pink text-white capitalize">{event.event_type}</Badge>
+                  <Badge className="bg-unicorn-pink text-white capitalize">{event.category}</Badge>
                   <Badge variant="outline" className="border-unicorn-purple text-unicorn-purple">
                     {event.priority}
                   </Badge>
@@ -255,7 +255,7 @@ export default function EventDetail() {
               <CardContent>
                 <div className="prose prose-gray max-w-none">
                   <div className="whitespace-pre-line text-muted-foreground leading-relaxed">
-                    {event.full_description || event.description}
+                    {event.description}
                   </div>
                 </div>
               </CardContent>
@@ -309,8 +309,8 @@ export default function EventDetail() {
                   <div>
                     <p className="font-medium">Thời gian</p>
                     <p className="text-sm text-muted-foreground">
-                      {event.start_time || "TBA"}
-                      {event.end_time && ` - ${event.end_time}`}
+                      {event.start_date ? new Date(event.start_date).toLocaleTimeString('vi-VN') : "TBA"}
+                      {event.end_date && ` - ${new Date(event.end_date).toLocaleTimeString('vi-VN')}`}
                     </p>
                   </div>
                 </div>

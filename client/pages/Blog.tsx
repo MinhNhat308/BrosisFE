@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
+import { useAdmin } from "@/contexts/AdminContext";
 import BlogService, { BlogPostUI } from "@/services/blogService";
 import BlogStatsService from "@/services/blogStatsService";
 import CreateBlogModal from "@/components/CreateBlogModal";
@@ -24,10 +25,13 @@ import {
   Bookmark,
   TrendingUp,
   Sparkles,
-  Loader2
+  Loader2,
+  Edit,
+  Trash2
 } from "lucide-react";
 
 export default function Blog() {
+  const { isAdminMode } = useAdmin();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [blogPosts, setBlogPosts] = useState<BlogPostUI[]>([]);
@@ -145,11 +149,14 @@ export default function Blog() {
               <BookOpen className="w-6 h-6 text-white" />
             </div>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-unicorn-pink to-unicorn-purple bg-clip-text text-transparent mb-4">
-            Blog & Hoạt động
-          </h1>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-unicorn-pink to-unicorn-purple bg-clip-text text-transparent">
+              Blog & Hoạt động
+            </h1>
+          </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Chia sẻ kiến thức, kinh nghiệm và thông tin về các hoạt động sắp tới của Unicorn Team
+            {isAdminMode && <span className="block text-orange-500 font-semibold mt-2">🔧 ADMIN MODE: Quản lý Blog</span>}
           </p>
         </div>
 
@@ -165,10 +172,12 @@ export default function Blog() {
                 className="pl-10 border-unicorn-pink/20 focus:border-unicorn-pink"
               />
             </div>
-            <Button className="bg-unicorn-purple hover:bg-unicorn-purple-light text-white" onClick={() => setIsCreateModalOpen(true)}>
-              <Plus className="w-4 h-4 mr-2" />
-              Viết bài mới
-            </Button>
+            {isAdminMode && (
+              <Button className="bg-unicorn-purple hover:bg-unicorn-purple-light text-white" onClick={() => setIsCreateModalOpen(true)}>
+                <Plus className="w-4 h-4 mr-2" />
+                Viết bài mới
+              </Button>
+            )}
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -196,11 +205,15 @@ export default function Blog() {
           <div className="text-center py-12">
             <BookOpen className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
             <h3 className="text-xl font-semibold mb-2">Chưa có blog nào</h3>
-            <p className="text-muted-foreground mb-4">Hãy tạo blog đầu tiên của bạn!</p>
-            <Button className="bg-unicorn-pink hover:bg-unicorn-pink-dark" onClick={() => setIsCreateModalOpen(true)}>
-              <Plus className="w-4 h-4 mr-2" />
-              Viết bài đầu tiên
-            </Button>
+            <p className="text-muted-foreground mb-4">
+              {isAdminMode ? "Hãy tạo blog đầu tiên của bạn!" : "Hiện tại chưa có bài blog nào. Hãy quay lại sau!"}
+            </p>
+            {isAdminMode && (
+              <Button className="bg-unicorn-pink hover:bg-unicorn-pink-dark" onClick={() => setIsCreateModalOpen(true)}>
+                <Plus className="w-4 h-4 mr-2" />
+                Viết bài đầu tiên
+              </Button>
+            )}
           </div>
         )}
 
@@ -359,13 +372,33 @@ export default function Blog() {
                         Lưu
                       </div>
                     </div>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="text-muted-foreground hover:text-unicorn-pink"
-                    >
-                      <Share2 className="w-4 h-4" />
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      {isAdminMode && (
+                        <>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="text-blue-500 hover:text-blue-600 hover:bg-blue-50"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </>
+                      )}
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="text-muted-foreground hover:text-unicorn-pink"
+                      >
+                        <Share2 className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -400,11 +433,13 @@ export default function Blog() {
     </div>
 
     {/* Create Blog Modal */}
-    <CreateBlogModal
-      isOpen={isCreateModalOpen}
-      onClose={() => setIsCreateModalOpen(false)}
-      onSubmit={handleCreateBlog}
-    />
+    {isAdminMode && (
+      <CreateBlogModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSubmit={handleCreateBlog}
+      />
+    )}
   </div>
 </div>
   );

@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { useAdmin } from "@/contexts/AdminContext";
 import { 
   Calendar, 
   Clock, 
@@ -26,7 +27,9 @@ import {
   UserPlus,
   Camera,
   Check,
-  X
+  X,
+  Edit,
+  Trash2
 } from "lucide-react";
 import { eventService, EventAPI } from "@/services/eventService";
 import EventServiceProduction, { EventServiceProduction as EventServiceClass } from "@/services/eventServiceProduction";
@@ -39,6 +42,7 @@ declare global {
 }
 
 export default function EventsProduction() {
+  const { isAdminMode } = useAdmin();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [events, setEvents] = useState<EventAPI[]>([]);
@@ -587,11 +591,32 @@ export default function EventsProduction() {
               <Calendar className="w-6 h-6 text-white" />
             </div>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-unicorn-pink to-unicorn-purple bg-clip-text text-transparent mb-4">
-            Sự kiện FPT University
-          </h1>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-unicorn-pink to-unicorn-purple bg-clip-text text-transparent">
+              Sự kiện FPT University
+            </h1>
+            {isAdminMode && (
+              <div className="flex gap-2">
+                <Button
+                  className="bg-green-500 hover:bg-green-600 text-white"
+                  size="sm"
+                >
+                  <Plus className="w-4 h-4 mr-1" />
+                  Thêm Sự kiện
+                </Button>
+                <Button
+                  className="bg-blue-500 hover:bg-blue-600 text-white"
+                  size="sm"
+                >
+                  <Edit className="w-4 h-4 mr-1" />
+                  Quản lý
+                </Button>
+              </div>
+            )}
+          </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Khám phá và tham gia các sự kiện học thuật, hướng nghiệp và hoạt động sinh viên tại FPT University
+            {isAdminMode && <span className="block text-orange-500 font-semibold mt-2">🔧 ADMIN MODE: Quản lý Sự kiện</span>}
           </p>
         </div>
 
@@ -649,10 +674,10 @@ export default function EventsProduction() {
                       const fallbackDiv = document.createElement('div');
                       fallbackDiv.className = `absolute inset-0 flex items-center justify-center bg-gradient-to-br ${getCategoryGradient(event.event_type)} opacity-90`;
                       fallbackDiv.innerHTML = `
-                        <div class="text-center text-white">
-                          <div class="text-6xl mb-4">${getCategoryIcon(event.event_type)}</div>
-                          <p class="text-xl font-bold mb-2">${event.event_type.toUpperCase()}</p>
-                          <p class="text-sm opacity-90 px-4">${event.title.substring(0, 30)}${event.title.length > 30 ? '...' : ''}</p>
+                        <div class=\"text-center text-white\">
+                          <div class=\"text-6xl mb-4\">${getCategoryIcon(event.event_type)}</div>
+                          <p class=\"text-xl font-bold mb-2\">${event.event_type ? event.event_type.toUpperCase() : ''}</p>
+                          <p class=\"text-sm opacity-90 px-4\">${event.title.substring(0, 30)}${event.title.length > 30 ? '...' : ''}</p>
                         </div>
                       `;
                       parent.appendChild(fallbackDiv);
@@ -662,7 +687,7 @@ export default function EventsProduction() {
                   <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br ${getCategoryGradient(event.event_type)} opacity-90`}>
                     <div className="text-center text-white">
                       <div className="text-6xl mb-4">{getCategoryIcon(event.event_type)}</div>
-                      <p className="text-xl font-bold mb-2">{event.event_type.toUpperCase()}</p>
+                      <p className="text-xl font-bold mb-2">{event.event_type ? event.event_type.toUpperCase() : ''}</p>
                       <p className="text-sm opacity-90 px-4">{event.title.substring(0, 30)}{event.title.length > 30 ? '...' : ''}</p>
                     </div>
                   </div>

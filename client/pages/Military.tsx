@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Shield, Award, Target, Star, Clock, MapPin, Users, BookOpen, Download, Play, Flag, Trophy, FileText } from "lucide-react";
+import { Shield, Award, Target, Star, Clock, MapPin, Users, BookOpen, Download, Play, Flag, Trophy, FileText, Eye, EyeOff, X, Edit, Trash2, Plus } from "lucide-react";
 
 const Military = () => {
   const [activeTab, setActiveTab] = useState("intro");
@@ -27,6 +27,16 @@ const Military = () => {
   const [showAddItemModal, setShowAddItemModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [cartItems, setCartItems] = useState<{[key: string]: Array<{name: string, quantity: number, price: number}>}>({});
+  
+  // Admin Mode States
+  const [isAdminMode, setIsAdminMode] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  
+  // Admin password (in production, this should be environment variable)
+  const ADMIN_PASSWORD = "Minhnhat123@";
+  
   const [defaultItems, setDefaultItems] = useState<{[key: string]: Array<{name: string, quantity: number, price: number}>}>({
     "Đồ dùng cá nhân (bắt buộc)": [
       { name: "Dép tổ ong / dép lào (đi lại trong khu)", quantity: 1, price: 50000 },
@@ -148,12 +158,42 @@ const Military = () => {
     }).format(price);
   };
 
+  // Admin Mode Functions
+  
+    const handlePasswordSubmit = () => {
+    if (passwordInput === ADMIN_PASSWORD) {
+      setIsAdminMode(true);
+      setShowPasswordModal(false);
+      setPasswordInput("");
+      setPasswordError("");
+    } else {
+      setPasswordError("Mật khẩu không đúng!");
+      setPasswordInput("");
+    }
+  };
+
+  const handlePasswordCancel = () => {
+    setShowPasswordModal(false);
+    setPasswordInput("");
+    setPasswordError("");
+  };
+
+  const handleAdminToggle = () => {
+    if (isAdminMode) {
+      // If already in admin mode, toggle off
+      setIsAdminMode(false);
+    } else {
+      // If not in admin mode, show password modal
+      setShowPasswordModal(true);
+    }
+  };
+
   const trainings = [
-    { name: "Quân sự cơ bản", hours: 40, icon: Shield },
-    { name: "Chiến thuật", hours: 30, icon: Target },
-    { name: "Kỹ thuật chiến đấu", hours: 35, icon: Award },
-    { name: "Y học quân sự", hours: 25, icon: BookOpen },
-    { name: "Thể lực chiến đấu", hours: 50, icon: Trophy }
+    { name: "Kiến thức chính trị - quốc phòng - an ninh", hours: 120, icon: Shield },
+    { name: "Kiến thức quân sự cơ bản", hours: 48, icon: Target },
+    { name: "Kỹ thuật quân sự", hours: 120, icon: Award },
+    { name: "Chiến thuật bộ binh", hours: 120, icon: BookOpen },
+    { name: "Thực hành rèn luyện", hours: 120, icon: Trophy }
   ];
 
   const fadeInUp: any = {
@@ -426,8 +466,8 @@ const Military = () => {
           variants={staggerChildren}
         >
           {[
-            { title: "180 Tiết", subtitle: "Tổng thời gian", icon: Clock, color: "from-blue-500 to-blue-600" },
-            { title: "15 Tuần", subtitle: "Thời gian thực hiện", icon: MapPin, color: "from-purple-500 to-purple-600" },
+            { title: "165 Tiết", subtitle: "Tổng thời gian", icon: Clock, color: "from-blue-500 to-blue-600" },
+            { title: "3 - 4 tuần", subtitle: "Thời gian thực hiện", icon: MapPin, color: "from-purple-500 to-purple-600" },
             { title: "1000+", subtitle: "Sinh viên tham gia", icon: Users, color: "from-green-500 to-green-600" },
             { title: "98%", subtitle: "Tỷ lệ đỗ", icon: Trophy, color: "from-orange-500 to-orange-600" }
           ].map((stat, index) => (
@@ -562,12 +602,20 @@ const Military = () => {
                     animate="visible"
                     variants={staggerChildren}
                   >
-                    <motion.h3 
-                      className="text-3xl font-bold text-yellow-400 mb-6 text-center"
-                      variants={fadeInUp}
-                    >
-                      Ý nghĩa học kỳ quân sự
-                    </motion.h3>
+                    <div className="flex items-center justify-center mb-6">
+                      <motion.h3 
+                        className="text-3xl font-bold text-yellow-400"
+                        variants={fadeInUp}
+                      >
+                        Ý nghĩa học kỳ quân sự
+                      </motion.h3>
+                      {isAdminMode && (
+                        <button className="ml-4 px-3 py-1 bg-yellow-500/20 border border-yellow-400/30 rounded-lg text-yellow-300 text-sm hover:bg-yellow-500/30 transition-all duration-200">
+                          <Edit className="w-4 h-4 inline mr-1" />
+                          Chỉnh sửa
+                        </button>
+                      )}
+                    </div>
                     
                     {/* Ý nghĩa chính */}
                     <motion.div 
@@ -898,7 +946,21 @@ const Military = () => {
 
                 {activeTab === "rules" && (
                   <div className="space-y-8">
-                    <h3 className="text-3xl font-bold text-yellow-400 mb-6 text-center">Quy định & Chuẩn bị</h3>
+                    <div className="flex items-center justify-center mb-6">
+                      <h3 className="text-3xl font-bold text-yellow-400">Quy định & Chuẩn bị</h3>
+                      {isAdminMode && (
+                        <div className="ml-4 flex gap-2">
+                          <button className="px-3 py-1 bg-green-500/20 border border-green-400/30 rounded-lg text-green-300 text-sm hover:bg-green-500/30 transition-all duration-200">
+                            <Plus className="w-4 h-4 inline mr-1" />
+                            Thêm quy định
+                          </button>
+                          <button className="px-3 py-1 bg-yellow-500/20 border border-yellow-400/30 rounded-lg text-yellow-300 text-sm hover:bg-yellow-500/30 transition-all duration-200">
+                            <Edit className="w-4 h-4 inline mr-1" />
+                            Chỉnh sửa
+                          </button>
+                        </div>
+                      )}
+                    </div>
                     
                     {/* Trang phục quy định */}
                     <div className="mb-8">
@@ -1073,7 +1135,21 @@ const Military = () => {
 
                 {activeTab === "schedule" && (
                   <div className="space-y-8">
-                    <h3 className="text-3xl font-bold text-yellow-400 mb-6 text-center">Lịch trình hàng ngày</h3>
+                    <div className="flex items-center justify-center mb-6">
+                      <h3 className="text-3xl font-bold text-yellow-400">Lịch trình hàng ngày</h3>
+                      {isAdminMode && (
+                        <div className="ml-4 flex gap-2">
+                          <button className="px-3 py-1 bg-green-500/20 border border-green-400/30 rounded-lg text-green-300 text-sm hover:bg-green-500/30 transition-all duration-200">
+                            <Plus className="w-4 h-4 inline mr-1" />
+                            Thêm
+                          </button>
+                          <button className="px-3 py-1 bg-yellow-500/20 border border-yellow-400/30 rounded-lg text-yellow-300 text-sm hover:bg-yellow-500/30 transition-all duration-200">
+                            <Edit className="w-4 h-4 inline mr-1" />
+                            Chỉnh sửa
+                          </button>
+                        </div>
+                      )}
+                    </div>
                     
                     <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 border border-slate-600/40 rounded-xl overflow-hidden shadow-2xl">
                       <div className="bg-gradient-to-r from-slate-700 to-slate-800 p-4 border-b border-slate-600/50">
@@ -1193,7 +1269,21 @@ const Military = () => {
 
                 {activeTab === "gallery" && (
                   <div className="space-y-8">
-                    <h3 className="text-3xl font-bold text-yellow-400 mb-6 text-center">Hình ảnh hoạt động</h3>
+                    <div className="flex items-center justify-center mb-6">
+                      <h3 className="text-3xl font-bold text-yellow-400">Hình ảnh hoạt động</h3>
+                      {isAdminMode && (
+                        <div className="ml-4 flex gap-2">
+                          <button className="px-3 py-1 bg-green-500/20 border border-green-400/30 rounded-lg text-green-300 text-sm hover:bg-green-500/30 transition-all duration-200">
+                            <Plus className="w-4 h-4 inline mr-1" />
+                            Thêm ảnh
+                          </button>
+                          <button className="px-3 py-1 bg-yellow-500/20 border border-yellow-400/30 rounded-lg text-yellow-300 text-sm hover:bg-yellow-500/30 transition-all duration-200">
+                            <Edit className="w-4 h-4 inline mr-1" />
+                            Quản lý
+                          </button>
+                        </div>
+                      )}
+                    </div>
                     
                     {/* Hero Image Section */}
                     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-800/60 to-slate-900/60 border border-slate-600/40">
@@ -1393,12 +1483,26 @@ const Military = () => {
                     animate="visible"
                     variants={staggerChildren}
                   >
-                    <motion.h3 
-                      className="text-3xl font-bold text-yellow-400 mb-6 text-center"
-                      variants={fadeInUp}
-                    >
-                      FAQ – Học kỳ quân sự FPT
-                    </motion.h3>
+                    <div className="flex items-center justify-center mb-6">
+                      <motion.h3 
+                        className="text-3xl font-bold text-yellow-400"
+                        variants={fadeInUp}
+                      >
+                        FAQ – Học kỳ quân sự FPT
+                      </motion.h3>
+                      {isAdminMode && (
+                        <div className="ml-4 flex gap-2">
+                          <button className="px-3 py-1 bg-green-500/20 border border-green-400/30 rounded-lg text-green-300 text-sm hover:bg-green-500/30 transition-all duration-200">
+                            <Plus className="w-4 h-4 inline mr-1" />
+                            Thêm câu hỏi
+                          </button>
+                          <button className="px-3 py-1 bg-yellow-500/20 border border-yellow-400/30 rounded-lg text-yellow-300 text-sm hover:bg-yellow-500/30 transition-all duration-200">
+                            <Edit className="w-4 h-4 inline mr-1" />
+                            Chỉnh sửa
+                          </button>
+                        </div>
+                      )}
+                    </div>
                     
                     {/* Thông tin chung */}
                     <div className="mb-8">
@@ -1412,19 +1516,19 @@ const Military = () => {
                         {[
                           {
                             q: "Học kỳ quân sự diễn ra ở đâu?",
-                            a: "Thường được tổ chức tại các trung tâm giáo dục quốc phòng – an ninh (ví dụ: Xuân Hòa, Thủ Đức...)."
+                            a: "Sinh viên FPT HCM thường học kỳ quân sự tại Trường Quân sự Quân khu 7 (TP. Thủ Đức). Đây là đơn vị huấn luyện chính quy, có đủ thao trường, bãi tập, giảng đường và ký túc xá được bố trí theo mô hình quân đội."
                           },
                           {
                             q: "Thời gian học kỳ quân sự bao lâu?",
-                            a: "Khoảng 4 tuần (1 tháng)."
+                            a: "Thời gian khóa học khoảng 3–4 tuần (tương đương 1 tháng), với tổng cộng 165 tiết. Trong suốt thời gian này, sinh viên ăn ở và sinh hoạt tập trung tại Trường Quân sự Quân khu 7, tham gia cả học lý thuyết lẫn rèn luyện thực hành ngoài thao trường."
                           },
                           {
                             q: "Sinh viên nào phải tham gia?",
-                            a: "Tất cả sinh viên FPT năm nhất, sau khi hoàn thành giai đoạn học tiếng Anh."
+                            a: "Tất cả sinh viên FPT HCM đều bắt buộc tham gia học kỳ quân sự theo quy định của Bộ Giáo dục & Đào tạo. Thông thường, sinh viên năm nhất sau khi hoàn thành giai đoạn học tiếng Anh dự bị sẽ tham gia khóa huấn luyện này. Đây là môn học bắt buộc để tích lũy tín chỉ và là điều kiện cần thiết cho việc xét tốt nghiệp."
                           },
                           {
                             q: "Mục đích của học kỳ quân sự là gì?",
-                            a: "Rèn luyện tính kỷ luật, kỹ năng sinh tồn, sức khỏe, và tinh thần đồng đội."
+                            a: "Học kỳ quân sự giúp sinh viên rèn luyện kỷ luật, tác phong đúng giờ, tinh thần đồng đội và ý chí vượt khó. Đồng thời, sinh viên sẽ được trang bị kiến thức cơ bản về quốc phòng – an ninh, học điều lệnh đội ngũ, kỹ thuật quân sự (bắn súng, ném lựu đạn tập, bản đồ – địa hình), kỹ năng sinh tồn và thể lực. Đây cũng là cơ hội để mỗi sinh viên trải nghiệm môi trường quân đội, tăng cường trách nhiệm công dân và tình yêu Tổ quốc."
                           }
                         ].map((faq, index) => (
                           <div key={index} className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/40 rounded-lg overflow-hidden">
@@ -1464,27 +1568,27 @@ const Military = () => {
                         {[
                           {
                             q: "Ăn uống ở quân sự thế nào?",
-                            a: "Ăn tại nhà ăn tập trung, suất ăn theo tiêu chuẩn quân đội (cơm, canh, mặn, rau)."
+                            a: "Sinh viên ăn tại nhà ăn tập trung của Trường Quân sự Quân khu 7. Suất ăn được chuẩn bị theo tiêu chuẩn quân đội, đảm bảo đủ cơm, canh, món mặn, rau và trái cây theo ngày. Thực đơn thay đổi theo tuần để cân đối dinh dưỡng, tuy không đa dạng như ở nhà nhưng đủ no và bảo đảm sức khỏe cho huấn luyện."
                           },
                           {
                             q: "Ký túc xá có máy lạnh không?",
-                            a: "Không. Thường là phòng tập thể 8–12 người, có quạt trần."
+                            a: "Không. Ký túc xá thường là phòng tập thể từ 8–12 sinh viên, được trang bị giường tầng, quạt trần hoặc quạt tường. Phòng ở đơn giản, đúng mô hình quân đội, giúp rèn luyện sinh hoạt tập thể và tính kỷ luật."
                           },
                           {
                             q: "Có được dùng điện thoại không?",
-                            a: "Có, nhưng phải theo quy định (không dùng trong giờ học, thao trường)."
+                            a: "Sinh viên được phép mang theo và sử dụng điện thoại, nhưng phải tuân thủ quy định của đơn vị. Cụ thể: không dùng trong giờ học, giờ thao trường, giờ chào cờ hoặc các hoạt động tập thể. Ngoài giờ sinh hoạt chính, sinh viên có thể liên lạc về nhà bình thường."
                           },
                           {
                             q: "Có wifi không?",
-                            a: "Thường không. Nếu cần thì nên dùng 4G/5G."
+                            a: "Thông thường tại Trường Quân sự Quân khu 7 không cung cấp wifi cho sinh viên. Nếu cần liên lạc hoặc học tập, sinh viên nên chủ động đăng ký gói 4G/5G trên điện thoại."
                           },
                           {
                             q: "Có được mang laptop không?",
-                            a: "Không khuyến khích, vì không cần thiết và dễ mất."
+                            a: "Không khuyến khích mang laptop theo, vì trong suốt khóa quân sự hầu như không sử dụng đến, đồng thời dễ hư hỏng hoặc thất lạc. Sinh viên chỉ nên mang điện thoại và các vật dụng học tập, sinh hoạt cần thiết."
                           },
                           {
                             q: "Phòng tắm, vệ sinh có sạch không?",
-                            a: "Tùy trung tâm, nhưng đa số là phòng tập thể, nên chuẩn bị đồ vệ sinh cá nhân."
+                            a: "Khu vệ sinh và phòng tắm được bố trí tập thể, nam nữ tách riêng. Mức độ sạch sẽ tùy thuộc vào ý thức giữ gìn của tập thể từng phòng. Sinh viên nên chuẩn bị đầy đủ đồ dùng cá nhân như xà phòng, sữa tắm, dép đi trong nhà tắm, xô/ chậu để thuận tiện sử dụng."
                           }
                         ].map((faq, index) => (
                           <div key={index + 4} className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/40 rounded-lg overflow-hidden">
@@ -1524,19 +1628,19 @@ const Military = () => {
                         {[
                           {
                             q: "Học kỳ quân sự học những gì?",
-                            a: "Điều lệnh đội ngũ, kỹ năng bắn súng (mô phỏng), sơ tán – trú ẩn, võ thuật, thể lực, kỹ năng sinh tồn."
+                            a: "Sinh viên sẽ được học và rèn luyện các nội dung chính như: điều lệnh đội ngũ (tập hợp, đi đều, chào cờ…), kỹ thuật bắn súng tiểu liên AK (mô phỏng bằng máy hoặc bắn đạn thật tùy chương trình), kỹ năng ném lựu đạn tập, võ thuật tự vệ, rèn luyện thể lực quân sự, kỹ năng sinh tồn – sơ tán – trú ẩn khi có tình huống khẩn cấp. Ngoài ra còn có học phần lý thuyết về đường lối quốc phòng – an ninh và âm mưu thủ đoạn chống phá của các thế lực thù địch."
                           },
                           {
                             q: "Có kiểm tra, thi cuối kỳ không?",
-                            a: "Có: thi lý thuyết & thực hành (điều lệnh, đội ngũ)."
+                            a: "Có. Cuối khóa sinh viên sẽ tham gia kiểm tra cả lý thuyết (trắc nghiệm kiến thức quốc phòng – an ninh) và thực hành (điều lệnh đội ngũ, kỹ thuật quân sự cơ bản). Kết quả này cùng với quá trình rèn luyện sẽ được tính vào điểm tổng kết môn."
                           },
                           {
                             q: "Điểm học kỳ quân sự tính thế nào?",
-                            a: "Dựa trên chuyên cần, kỷ luật, thi lý thuyết, thi thực hành."
+                            a: "Điểm được tính dựa trên nhiều yếu tố: (1) Chuyên cần – tham gia đầy đủ các buổi học, rèn luyện; (2) Ý thức kỷ luật – chấp hành nội quy, giờ giấc, tác phong; (3) Kết quả thi lý thuyết – kiểm tra kiến thức quốc phòng, an ninh; (4) Kết quả thi thực hành – điều lệnh đội ngũ, kỹ thuật quân sự (bắn súng mô phỏng, ném lựu đạn tập...)."
                           },
                           {
                             q: "Nếu bị bệnh hoặc không tham gia được thì sao?",
-                            a: "Cần giấy xác nhận y tế, và sẽ học bù khóa sau."
+                            a: "Trong trường hợp sinh viên bị bệnh hoặc có lý do đặc biệt không thể tham gia, cần nộp giấy xác nhận y tế hoặc giấy tờ minh chứng hợp lệ cho Phòng Giáo dục Quân sự. Sinh viên sẽ được sắp xếp tham gia học bù ở khóa sau để hoàn thành đủ số tín chỉ bắt buộc."
                           }
                         ].map((faq, index) => (
                           <div key={index + 10} className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/40 rounded-lg overflow-hidden">
@@ -1576,19 +1680,19 @@ const Military = () => {
                         {[
                           {
                             q: "Có được phép ra ngoài trong thời gian học không?",
-                            a: "Không, trừ khi có lý do đặc biệt và được phép của quản lý."
+                            a: "Không. Trong suốt thời gian học kỳ quân sự, sinh viên phải ăn ở tập trung trong khuôn viên Trường Quân sự Quân khu 7. Chỉ khi có lý do chính đáng (ốm đau, việc gia đình khẩn cấp...) và có giấy phép từ Ban chỉ huy đơn vị hoặc Phòng Giáo dục Quân sự thì mới được ra ngoài."
                           },
                           {
                             q: "Có bị phạt nếu vi phạm kỷ luật không?",
-                            a: "Có. Hình thức phạt có thể là ghi biên bản, hạ điểm rèn luyện."
+                            a: "Có. Sinh viên vi phạm kỷ luật (đi trễ, sử dụng điện thoại trong giờ học, không chấp hành điều lệnh, vi phạm giờ giấc, hút thuốc trong khu vực cấm...) sẽ bị nhắc nhở, lập biên bản, hạ điểm rèn luyện, thậm chí cảnh cáo trước tập thể. Các trường hợp nặng có thể bị buộc học lại khóa sau."
                           },
                           {
                             q: "Có phải cắt tóc ngắn không?",
-                            a: "Nam: thường nên cắt gọn gàng. Nữ: buộc tóc gọn, không nhuộm quá nổi bật."
+                            a: "Nam sinh bắt buộc phải cắt tóc gọn gàng, không để dài quá chuẩn quân đội. Nữ sinh không cần cắt tóc ngắn nhưng phải buộc gọn khi học tập và huấn luyện, đồng thời không nhuộm tóc màu quá nổi bật. Mục tiêu là giữ tác phong chỉnh tề, nghiêm túc trong môi trường quân đội."
                           },
                           {
                             q: "Có giới nghiêm không?",
-                            a: "Có, thường tắt đèn đi ngủ trước 22h00."
+                            a: "Có. Tất cả sinh viên phải tuân thủ giờ giấc sinh hoạt tập trung. Thường buổi tối tắt đèn, đi ngủ trước 22h00, buổi sáng báo thức lúc 5h00. Ngoài khung giờ này, sinh viên không được tự ý ra ngoài khu ký túc xá hoặc gây mất trật tự."
                           }
                         ].map((faq, index) => (
                           <div key={index + 14} className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/40 rounded-lg overflow-hidden">
@@ -1628,19 +1732,19 @@ const Military = () => {
                         {[
                           {
                             q: "Nhà trường có phát quân phục không?",
-                            a: "Có, gồm quần áo, mũ, giày."
+                            a: "Có. Khi nhập học, sinh viên sẽ được cấp phát quân phục gồm: quần áo rằn ri hoặc xanh bộ đội, mũ cứng, thắt lưng, giày thể thao/giày bata và các phụ kiện cơ bản. Toàn bộ sinh viên phải mặc đồng bộ theo quy định trong suốt thời gian học."
                           },
                           {
                             q: "Sinh viên cần mang theo những gì?",
-                            a: "Vật dụng cá nhân (quần áo lót, tất, dép, đồ vệ sinh, thuốc cá nhân, bình nước, ổ cắm, quạt mini)."
+                            a: "Sinh viên cần chuẩn bị vật dụng cá nhân như: quần áo lót, tất, khăn tắm, dép đi trong nhà, đồ vệ sinh cá nhân (xà phòng, bàn chải, sữa tắm, dầu gội...), thuốc cá nhân nếu có bệnh lý riêng, bình nước cá nhân, ổ cắm điện (dây kéo dài), quạt mini cắm điện/USB và một ít đồ dùng học tập (sổ, bút)."
                           },
                           {
                             q: "Có cần mang nhiều tiền không?",
-                            a: "Không, chỉ nên mang ít tiền mặt và thẻ ATM."
+                            a: "Không cần mang nhiều tiền mặt vì mọi chi phí chính (ăn ở, quân phục) đã được nhà trường bố trí. Sinh viên chỉ nên mang theo một ít tiền mặt để chi tiêu nhỏ (nước uống thêm, đồ ăn vặt trong căn tin), và mang thẻ ATM để tiện rút khi cần."
                           },
                           {
                             q: "Có cần mang gối, chăn không?",
-                            a: "Thường được cấp, nhưng nhiều bạn mang thêm gối nhỏ cho thoải mái."
+                            a: "Trường quân sự sẽ cấp chăn, màn, gối tiêu chuẩn quân đội. Tuy nhiên, nhiều sinh viên thường mang thêm gối nhỏ hoặc chăn mỏng cá nhân để cảm thấy thoải mái hơn khi ngủ, nhất là trong những ngày nắng nóng."
                           }
                         ].map((faq, index) => (
                           <div key={index + 18} className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-600/40 rounded-lg overflow-hidden">
@@ -1709,7 +1813,15 @@ const Military = () => {
 
                 {activeTab === "supplies" && (
                   <div className="space-y-8">
-                    <h3 className="text-3xl font-bold text-yellow-400 mb-6 text-center">Dự kiến vật phẩm và tính tiền</h3>
+                    <div className="text-center mb-6">
+                      <h3 className="text-3xl font-bold text-yellow-400 mb-2">Dự kiến vật phẩm và tính tiền</h3>
+                      {isAdminMode && (
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-500/20 to-red-600/20 border border-red-400/40 rounded-lg">
+                          <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                          <span className="text-red-300 text-sm font-semibold">ADMIN MODE: CRUD Enabled</span>
+                        </div>
+                      )}
+                    </div>
                     
                     {/* Summary Card */}
                     <div className="bg-gradient-to-r from-yellow-500/20 via-orange-500/20 to-yellow-500/20 border border-yellow-400/40 p-6 rounded-xl">
@@ -1757,18 +1869,19 @@ const Military = () => {
 
                             <div className="p-4">
 
-                            {/* Quick Actions */}
-                            <div className="flex flex-wrap gap-2 mb-4">
-                              <button
-                                onClick={() => {
-                                  Object.keys(defaultItems[categoryTitle] || {}).forEach(() => {
-                                    defaultItems[categoryTitle].forEach(item => {
-                                      updateItemQuantity(categoryTitle, item.name, 0);
+                            {/* Quick Actions - Only show in Admin Mode */}
+                            {isAdminMode && (
+                              <div className="flex flex-wrap gap-2 mb-4">
+                                <button
+                                  onClick={() => {
+                                    Object.keys(defaultItems[categoryTitle] || {}).forEach(() => {
+                                      defaultItems[categoryTitle].forEach(item => {
+                                        updateItemQuantity(categoryTitle, item.name, 0);
+                                      });
                                     });
-                                  });
-                                }}
-                                className="text-xs bg-red-600/20 hover:bg-red-600/30 text-red-400 px-3 py-1 rounded border border-red-500/30 transition-colors"
-                              >
+                                  }}
+                                  className="text-xs bg-red-600/20 hover:bg-red-600/30 text-red-400 px-3 py-1 rounded border border-red-500/30 transition-colors"
+                                >
                                 Xóa hết SL
                               </button>
                               <button
@@ -1799,6 +1912,7 @@ const Military = () => {
                                 Điều chỉnh giá %
                               </button>
                             </div>
+                            )}
 
                             {/* Items Table */}
                             <div className="overflow-x-auto">
@@ -1822,8 +1936,8 @@ const Military = () => {
                                           type="number"
                                           min="0"
                                           value={item.quantity}
-                                          onChange={(e) => updateItemQuantity(categoryTitle, item.name, parseInt(e.target.value) || 0)}
-                                          onKeyDown={(e) => {
+                                          onChange={isAdminMode ? (e) => updateItemQuantity(categoryTitle, item.name, parseInt(e.target.value) || 0) : undefined}
+                                          onKeyDown={isAdminMode ? (e) => {
                                             if (e.key === 'ArrowUp') {
                                               e.preventDefault();
                                               updateItemQuantity(categoryTitle, item.name, item.quantity + 1);
@@ -1831,8 +1945,13 @@ const Military = () => {
                                               e.preventDefault();
                                               updateItemQuantity(categoryTitle, item.name, Math.max(0, item.quantity - 1));
                                             }
-                                          }}
-                                          className="w-16 bg-slate-800/50 border border-slate-600/50 rounded px-2 py-1 text-white text-sm text-center focus:outline-none focus:border-yellow-400/50 focus:ring-1 focus:ring-yellow-400/20"
+                                          } : undefined}
+                                          readOnly={!isAdminMode}
+                                          className={`w-16 border rounded px-2 py-1 text-sm text-center focus:outline-none ${
+                                            isAdminMode 
+                                              ? 'bg-slate-800/50 border-slate-600/50 text-white focus:border-yellow-400/50 focus:ring-1 focus:ring-yellow-400/20' 
+                                              : 'bg-slate-700/30 border-slate-600/30 text-slate-400 cursor-not-allowed'
+                                          }`}
                                         />
                                       </td>
                                       <td className="py-3 px-3 text-center">
@@ -1841,8 +1960,8 @@ const Military = () => {
                                           min="0"
                                           step="1000"
                                           value={item.price}
-                                          onChange={(e) => updateItemPrice(categoryTitle, item.name, parseInt(e.target.value) || 0)}
-                                          onKeyDown={(e) => {
+                                          onChange={isAdminMode ? (e) => updateItemPrice(categoryTitle, item.name, parseInt(e.target.value) || 0) : undefined}
+                                          onKeyDown={isAdminMode ? (e) => {
                                             if (e.key === 'ArrowUp') {
                                               e.preventDefault();
                                               updateItemPrice(categoryTitle, item.name, item.price + 1000);
@@ -1850,8 +1969,13 @@ const Military = () => {
                                               e.preventDefault();
                                               updateItemPrice(categoryTitle, item.name, Math.max(0, item.price - 1000));
                                             }
-                                          }}
-                                          className="w-20 bg-slate-800/50 border border-slate-600/50 rounded px-2 py-1 text-white text-sm text-center focus:outline-none focus:border-yellow-400/50 focus:ring-1 focus:ring-yellow-400/20"
+                                          } : undefined}
+                                          readOnly={!isAdminMode}
+                                          className={`w-20 border rounded px-2 py-1 text-sm text-center focus:outline-none ${
+                                            isAdminMode 
+                                              ? 'bg-slate-800/50 border-slate-600/50 text-white focus:border-yellow-400/50 focus:ring-1 focus:ring-yellow-400/20' 
+                                              : 'bg-slate-700/30 border-slate-600/30 text-slate-400 cursor-not-allowed'
+                                          }`}
                                         />
                                       </td>
                                       <td className="py-3 px-3 text-right">
@@ -1965,7 +2089,21 @@ const Military = () => {
 
                 {activeTab === "documents" && (
                   <div className="space-y-8">
-                    <h3 className="text-3xl font-bold text-yellow-400 mb-6 text-center">Tài liệu quan trọng</h3>
+                    <div className="flex items-center justify-center mb-6">
+                      <h3 className="text-3xl font-bold text-yellow-400">Tài liệu quan trọng</h3>
+                      {isAdminMode && (
+                        <div className="ml-4 flex gap-2">
+                          <button className="px-3 py-1 bg-green-500/20 border border-green-400/30 rounded-lg text-green-300 text-sm hover:bg-green-500/30 transition-all duration-200">
+                            <Plus className="w-4 h-4 inline mr-1" />
+                            Thêm tài liệu
+                          </button>
+                          <button className="px-3 py-1 bg-yellow-500/20 border border-yellow-400/30 rounded-lg text-yellow-300 text-sm hover:bg-yellow-500/30 transition-all duration-200">
+                            <Edit className="w-4 h-4 inline mr-1" />
+                            Quản lý
+                          </button>
+                        </div>
+                      )}
+                    </div>
                     
                     {/* Documents List */}
                     <div className="space-y-6">
@@ -2151,6 +2289,55 @@ const Military = () => {
           </motion.div>
         </motion.section>
       </div>
+
+      {/* Password Modal */}
+      {showPasswordModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <motion.div 
+            className="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-600 rounded-xl p-6 w-full max-w-md"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+          >
+            <h3 className="text-xl font-bold text-yellow-400 mb-4 text-center">🔐 Admin Access</h3>
+            <p className="text-slate-300 text-sm mb-4 text-center">
+              Nhập mật khẩu để truy cập chế độ Admin
+            </p>
+            
+            <div className="space-y-4">
+              <div>
+                <input
+                  type="password"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handlePasswordSubmit()}
+                  placeholder="Nhập mật khẩu admin..."
+                  className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400"
+                  autoFocus
+                />
+                {passwordError && (
+                  <p className="text-red-400 text-sm mt-2">{passwordError}</p>
+                )}
+              </div>
+              
+              <div className="flex gap-3">
+                <button
+                  onClick={handlePasswordCancel}
+                  className="flex-1 px-4 py-2 bg-slate-600 text-slate-300 rounded-lg hover:bg-slate-500 transition-colors"
+                >
+                  Hủy
+                </button>
+                <button
+                  onClick={handlePasswordSubmit}
+                  className="flex-1 px-4 py-2 bg-gradient-to-r from-yellow-500 to-yellow-600 text-slate-900 rounded-lg font-semibold hover:from-yellow-400 hover:to-yellow-500 transition-colors"
+                >
+                  Truy cập
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </motion.div>
   );
 };

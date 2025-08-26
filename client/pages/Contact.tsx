@@ -23,26 +23,26 @@ import {
 
 export default function Contact() {
   const contactInfo = {
-    name: "Nhật Nguyễn Hoàng Minh",
-    title: "Founder & Team Leader - Unicorn Team",
-    bio: "Chào mừng đến với Unicorn Team! Tôi là người sáng lập và dẫn dắt đội ngũ 20 sinh viên tài năng. Với tâm huyết giáo dục và công nghệ, tôi luôn tin rằng mỗi sinh viên đều có tiềm năng trở thành 'kỳ lân' trong lĩnh vực của mình.",
-    email: "nhat.nguyen@unicornteam.vn",
-    phone: "+84 123 456 789",
+    name: "Nguyễn Hoàng Minh Nhật",
+    title: " Brothers in Brothers & Sisters 2025  - Member of Unicorn Team",
+    bio: "Chào mừng các bạn đến với Windy Team! Anh sẽ là Brothers cũng như là người hướng dẫn các bạn xuyên suốt khoảng thời gian các bạn làm quen với môi trường tại đại học FPT. Với sự giàu kinh nghiệm trong môi trường đại học nói riêng cũng như môi trường cuộc sống nói chung, anh tin rằng anh có thể hỗ trợ các bạn hết mình và có thể biến các bạn trở thành 'kỳ lân' trong lĩnh vực của mình.",
+    email: "minhnhat3082001winds@gmail.com",
+    phone: "+84 528677537",
     address: "Hồ Chí Minh, Việt Nam",
     website: "www.unicornteam.vn",
-    avatar: "/placeholder.svg"
+    avatar: "/BrotherWinds.jpg"
   };
 
   const achievements = [
     { icon: Users, title: "20+ Sinh viên", description: "Đã hướng dẫn và phát triển" },
     { icon: Trophy, title: "50+ Dự án", description: "Hoàn thành thành công" },
-    { icon: BookOpen, title: "100+ Workshop", description: "Tổ chức và thực hiện" },
-    { icon: Star, title: "95%", description: "Tỷ lệ sinh viên hài lòng" }
+    { icon: BookOpen, title: " 20+ Workshop", description: "Tổ chức và thực hiện" },
+    { icon: Star, title: "100%", description: "Tỷ lệ sinh viên hài lòng" }
   ];
 
   const specialties = [
-    "Quản lý và phát triển nhân tài",
-    "Giáo dục công nghệ thông tin",
+    "Quản lý và phát triển sinh viên",
+    "Xây dựng cộng đồng thể thao điện tử",
     "Tổ chức sự kiện và workshop",
     "Mentoring và career coaching",
     "Xây dựng cộng đồng học tập",
@@ -50,10 +50,10 @@ export default function Contact() {
   ];
 
   const socialLinks = [
-    { icon: Facebook, label: "Facebook", link: "#", color: "text-blue-600" },
+    { icon: Facebook, label: "Facebook", link: "https://www.facebook.com/minhnhat3082001/", color: "text-blue-600" },
     { icon: Linkedin, label: "LinkedIn", link: "#", color: "text-blue-700" },
-    { icon: Github, label: "GitHub", link: "#", color: "text-gray-800" },
-    { icon: Globe, label: "Website", link: "#", color: "text-unicorn-pink" }
+    { icon: Github, label: "GitHub", link: "https://github.com/MinhNhat308", color: "text-gray-800" },
+    { icon: Globe, label: "Website", link: "https://winds308.carrd.co.", color: "text-unicorn-pink" }
   ];
 
   return (
