@@ -1,5 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+
+// Safe fallback for framer-motion to avoid bundle initialization errors in production
+// This proxy returns regular HTML elements so existing <motion.*> usage won't break.
+const AnimatePresence: any = ({ children }: any) => <>{children}</>;
+
+const motion: any = new Proxy(
+  {},
+  {
+    get: (_target, prop: string) => {
+      return (props: any) => {
+        const Tag = prop as keyof JSX.IntrinsicElements;
+        return React.createElement(Tag as any, props, props?.children);
+      };
+    },
+  }
+);
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
