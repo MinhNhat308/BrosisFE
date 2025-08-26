@@ -16,7 +16,7 @@ const getAPIBaseURL = () => {
   const isDevelopment = import.meta.env.DEV || 
                        (typeof window !== 'undefined' && window.location.hostname === 'localhost');
   
-  return isDevelopment ? 'http://localhost:8081' : 'https://brosis2025-api.onrender.com';
+  return isDevelopment ? 'http://localhost:8081' : 'https://brosisbe.onrender.com';
 };
 
 export const API_BASE_URL = getAPIBaseURL();
