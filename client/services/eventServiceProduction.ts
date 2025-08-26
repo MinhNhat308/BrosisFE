@@ -1,7 +1,7 @@
 // Production Event Service with Cloudinary and EmailJS integration
 import { API_BASE_URL } from './config';
 
-const EVENT_API_URL = `${API_BASE_URL}/events`;
+const EVENT_API_URL = `${API_BASE_URL}/api/events`;
 
 export interface EventAPI {
   id: number;
@@ -347,7 +347,7 @@ class EventServiceProduction {
     message?: string;
   }> {
     try {
-      const response = await fetch(`${API_BASE_URL}/students/validate`, {
+      const response = await fetch(`${API_BASE_URL}/api/students/validate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -408,7 +408,7 @@ class EventServiceProduction {
         formData.append('student_image', registrationData.student_image);
       }
       
-      const response = await fetch(`${API_BASE_URL}/registrations/register`, {
+      const response = await fetch(`${API_BASE_URL}/api/registrations/register`, {
         method: 'POST',
         body: formData, // Don't set Content-Type, let browser set it with boundary
       });

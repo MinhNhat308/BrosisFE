@@ -1,7 +1,7 @@
 // Service to handle blog interaction statistics via API
 import { API_BASE_URL } from './config';
 
-const BLOG_API_URL = `${API_BASE_URL}/blog`;
+const BLOG_API_URL = `${API_BASE_URL}/api/blog`;
 
 export class BlogStatsService {
   // Increment view count via API

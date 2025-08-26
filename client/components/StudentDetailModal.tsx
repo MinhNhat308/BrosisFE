@@ -84,7 +84,7 @@ export default function StudentDetailModal({ student, isOpen, onClose }: Student
     setIsLoadingDocuments(true);
     try {
       // First try to get existing documents
-      let response = await fetch(`${API_BASE_URL}/documents/student/${student.id}`);
+      let response = await fetch(`${API_BASE_URL}/api/documents/student/${student.id}`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch documents');
@@ -94,7 +94,7 @@ export default function StudentDetailModal({ student, isOpen, onClose }: Student
       
       // If no documents exist, create default ones
       if (!result.data || result.data.length === 0) {
-        const createResponse = await fetch(`${API_BASE_URL}/documents/student/${student.id}/create-defaults`, {
+        const createResponse = await fetch(`${API_BASE_URL}/api/documents/student/${student.id}/create-defaults`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ export default function StudentDetailModal({ student, isOpen, onClose }: Student
     setIsUpdatingDocument(prev => ({ ...prev, [documentId]: true }));
     
     try {
-      const response = await fetch(`${API_BASE_URL}/documents/${documentId}/status`, {
+      const response = await fetch(`${API_BASE_URL}/api/documents/${documentId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
