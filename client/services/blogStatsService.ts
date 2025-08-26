@@ -1,11 +1,13 @@
 // Service to handle blog interaction statistics via API
-const API_BASE_URL = 'http://localhost:8081/api/blog';
+import { API_BASE_URL } from './config';
+
+const BLOG_API_URL = `${API_BASE_URL}/blog`;
 
 export class BlogStatsService {
   // Increment view count via API
   static async incrementViewCount(blogId: number): Promise<number> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${blogId}/views`, {
+      const response = await fetch(`${BLOG_API_URL}/${blogId}/views`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,7 +37,7 @@ export class BlogStatsService {
   // Toggle like status via API
   static async toggleLike(blogId: number, currentlyLiked: boolean): Promise<{ liked: boolean; count: number }> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${blogId}/like`, {
+      const response = await fetch(`${BLOG_API_URL}/${blogId}/like`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +70,7 @@ export class BlogStatsService {
   // Get blog stats from API (for initial load)
   static async getBlogStats(blogId: number): Promise<{ views: number; likes: number; isLiked: boolean }> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${blogId}`);
+      const response = await fetch(`${BLOG_API_URL}/${blogId}`);
       
       if (response.ok) {
         const blog = await response.json();

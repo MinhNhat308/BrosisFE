@@ -408,7 +408,7 @@ class EventServiceProduction {
         formData.append('student_image', registrationData.student_image);
       }
       
-      const response = await fetch('http://localhost:8081/api/registrations/register', {
+      const response = await fetch(`${API_BASE_URL}/registrations/register`, {
         method: 'POST',
         body: formData, // Don't set Content-Type, let browser set it with boundary
       });
