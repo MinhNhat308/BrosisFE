@@ -2,11 +2,47 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Shield, Award, Target, Star } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { Shield, Award, Target, Star, Clock, MapPin, Users, BookOpen, Download, Play, Flag, Trophy, FileText, Calculator, Plus, Minus, ShoppingCart } from "lucide-react";
 
-// Simple Military page without complex animations
-const MilitarySimple = () => {
+// CSS animations để thay thế Framer Motion
+const fadeInUp = "animate-fadeInUp";
+const slideInLeft = "animate-slideInLeft";
+const bounceIn = "animate-bounceIn";
+
+const Military = () => {
   const [activeTab, setActiveTab] = useState("intro");
+  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
+  const [showAddItemModal, setShowAddItemModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [cartItems, setCartItems] = useState<{[key: string]: Array<{name: string, quantity: number, price: number}>}>({});
+  const [defaultItems, setDefaultItems] = useState<{[key: string]: Array<{name: string, quantity: number, price: number}>}>({
+    "Đồ dùng cá nhân (bắt buộc)": [
+      { name: "Dép tổ ong / dép lào (đi lại trong khu)", quantity: 1, price: 50000 },
+      { name: "Tất (màu đen/xanh rêu) 5–7 đôi", quantity: 6, price: 15000 },
+      { name: "Đồ lót (thoáng mát, dễ giặt, khô nhanh)", quantity: 5, price: 25000 },
+      { name: "Khăn tắm, khăn mặt (2–3 cái)", quantity: 3, price: 30000 },
+      { name: "Bình nước cá nhân (loại giữ nhiệt càng tốt)", quantity: 1, price: 120000 }
+    ],
+    "Đồ vệ sinh – chăm sóc bản thân": [
+      { name: "Xà phòng, sữa tắm, dầu gội (gói nhỏ)", quantity: 3, price: 25000 },
+      { name: "Bàn chải + kem đánh răng", quantity: 1, price: 35000 },
+      { name: "Giấy vệ sinh, khăn giấy, khăn ướt", quantity: 5, price: 20000 },
+      { name: "Nước rửa tay khô", quantity: 2, price: 25000 },
+      { name: "Thuốc chống muỗi/kem chống muỗi", quantity: 2, price: 40000 }
+    ],
+    "Đồ giặt – phơi": [
+      { name: "Nước giặt dạng túi nhỏ", quantity: 5, price: 15000 },
+      { name: "Móc áo (loại có thể gập)", quantity: 10, price: 3000 },
+      { name: "Dây phơi (loại co giãn)", quantity: 1, price: 25000 }
+    ],
+    "Thuốc men – y tế": [
+      { name: "Thuốc hạ sốt (Paracetamol)", quantity: 1, price: 30000 },
+      { name: "Thuốc đau bụng, tiêu hóa", quantity: 1, price: 25000 },
+      { name: "Băng gạc, cồn", quantity: 1, price: 20000 },
+      { name: "Cao dán (đau lưng, vai gáy)", quantity: 3, price: 15000 }
+    ]
+  });
 
   const stats = [
     { number: "4", label: "Tuần Huấn Luyện", icon: Shield },
@@ -145,4 +181,4 @@ const MilitarySimple = () => {
   );
 };
 
-export default MilitarySimple;
+export default Military;

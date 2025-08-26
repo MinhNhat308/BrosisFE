@@ -1,7 +1,7 @@
 // Event API Service cho frontend
-import { EVENT_API_URL } from './config';
+import { API_BASE_URL } from './config';
 
-const EVENT_API_URL = `${EVENT_API_URL}/api/events`;
+const EVENT_API_URL = `${API_BASE_URL}/api/events`;
 
 export interface EventAPI {
   id: number;
