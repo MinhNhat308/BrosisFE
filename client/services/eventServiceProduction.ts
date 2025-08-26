@@ -1,5 +1,7 @@
 // Production Event Service with Cloudinary and EmailJS integration
-const API_BASE_URL = 'http://localhost:8081/api/events';
+import { API_BASE_URL } from './config';
+
+const EVENT_API_URL = `${API_BASE_URL}/events`;
 
 export interface EventAPI {
   id: number;
@@ -66,7 +68,7 @@ class EventServiceProduction {
   // Get all events
   async getAllEvents(): Promise<EventAPI[]> {
     try {
-      const response = await fetch(API_BASE_URL);
+      const response = await fetch(EVENT_API_URL);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -80,7 +82,7 @@ class EventServiceProduction {
   // Get event by ID
   async getEventById(id: number): Promise<EventAPI> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}`);
+      const response = await fetch(`${EVENT_API_URL}/${id}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -201,7 +203,7 @@ class EventServiceProduction {
         formData.append('image_url', imageUrl);
       }
 
-      const response = await fetch(`${API_BASE_URL}/${id}/register`, {
+      const response = await fetch(`${EVENT_API_URL}/${id}/register`, {
         method: 'POST',
         body: formData,
       });
@@ -252,7 +254,7 @@ class EventServiceProduction {
   // Create new event
   async createEvent(eventData: Partial<EventAPI>): Promise<EventAPI> {
     try {
-      const response = await fetch(API_BASE_URL, {
+      const response = await fetch(EVENT_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -272,7 +274,7 @@ class EventServiceProduction {
   // Update event
   async updateEvent(id: number, eventData: Partial<EventAPI>): Promise<EventAPI> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}`, {
+      const response = await fetch(`${EVENT_API_URL}/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -292,7 +294,7 @@ class EventServiceProduction {
   // Delete event
   async deleteEvent(id: number): Promise<void> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}`, {
+      const response = await fetch(`${EVENT_API_URL}/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -307,7 +309,7 @@ class EventServiceProduction {
   // Toggle like for event
   async toggleLike(id: number): Promise<{ liked: boolean; likes: number }> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}/like`, {
+      const response = await fetch(`${EVENT_API_URL}/${id}/like`, {
         method: 'POST',
       });
       if (!response.ok) {
@@ -345,7 +347,7 @@ class EventServiceProduction {
     message?: string;
   }> {
     try {
-      const response = await fetch('http://localhost:8081/api/students/validate', {
+      const response = await fetch(`${API_BASE_URL}/students/validate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
